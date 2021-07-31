@@ -1,0 +1,121 @@
+import ctypes  # provides low-level arrays
+
+# THIS IS A DOUBLE-ENDED QUEUE THAT RESIZES ITSELF
+# - ALSO KNOWN AS dQ: Dynamic Queue
+
+def make_array(n):
+    return (n * ctypes.py_object)()
+
+class ArrayDeque:
+    INITIAL_CAPACITY = 8
+
+    def __init__(self):
+        self.data = make_array(ArrayDeque.INITIAL_CAPACITY)
+        self.num_of_elems = 0
+        self.front_ind = None
+        self.back_ind = None
+        self.print_list = []
+
+    def __len__(self):
+        return self.num_of_elems
+
+    def __repr__(self):
+        print("Real Dequeue doesn't look like this it may have front and back index somewhere in the middle and Nones in the capacity")
+        return "[|dQ| "+", ".join([str(elem) for elem in self.print_list]) + " |dQ|]"
+
+    def is_empty(self):
+        return (self.num_of_elems == 0)
+
+    def enqueue_first(self, elem):
+        if (self.num_of_elems == len(self.data)):
+            # ^^ reached capacity
+            self.resize(2 * len(self.data))
+        if (self.is_empty()):
+            self.data[0] = elem
+            self.front_ind = 0
+            self.back_ind = 0
+            self.num_of_elems = 1
+        else:
+            self.front_ind = (self.front_ind - 1) % len(self.data)
+            self.data[self.front_ind] = elem
+            self.num_of_elems += 1
+        self.print_list.insert(0, elem)
+
+
+    def enqueue_last(self, elem):
+        if(self.num_of_elems == len(self.data)):
+            self.resize(2 * len(self.data))
+        if (self.is_empty()):
+            self.data[0] = elem
+            self.front_ind = 0
+            self.back_ind = 0
+            self.num_of_elems = 1
+        else:
+            self.back_ind = (self.back_ind + 1) % len(self.data)
+            self.data[self.back_ind] = elem
+            self.num_of_elems += 1
+        self.print_list.append(elem)
+
+
+    def dequeue_first(self):
+        if (self.is_empty()):
+            raise Exception("Queue is empty")
+        value = self.data[self.front_ind]
+        self.data[self.front_ind] = None
+        self.front_ind = (self.front_ind + 1) % len(self.data)
+        self.num_of_elems -= 1
+        if(self.is_empty()):
+            self.front_ind = None
+            self.back_ind = None
+        elif(self.num_of_elems < len(self.data) // 4):
+            self.resize(len(self.data) // 2)
+
+        self.print_list.pop(0)
+        return value
+
+    def dequeue_last(self):
+        if (self.is_empty()):
+            raise Exception("Queue is empty")
+        value = self.data[self.back_ind]
+        self.data[self.back_ind] = None
+        self.back_ind = (self.back_ind - 1) % len(self.data)
+        self.num_of_elems -= 1
+        if(self.is_empty()):
+            self.front_ind = None
+            self.back_ind = None
+        elif(self.num_of_elems < len(self.data) // 4):
+            self.resize(len(self.data) // 2)
+        self.print_list.pop()
+        return value
+
+    def first(self):
+        if self.is_empty():
+            raise Exception("Queue is empty")
+        return self.data[self.front_ind]
+
+    def last(self):
+        if self.is_empty():
+            raise Exception("Queue is empty")
+        return self.data[self.back_ind]
+
+    def resize(self, new_cap):
+        old_data = self.data
+        new_data = make_array(new_cap)
+        old_ind = self.front_ind
+        for new_ind in range(self.num_of_elems):
+            new_data[new_ind] = old_data[old_ind]
+            old_ind = (old_ind + 1) % len(old_data)
+        self.data = new_data
+        self.front_ind = 0
+        self.back_ind = self.front_ind + self.num_of_elems - 1
+
+
+
+q = ArrayDeque()
+for i in range(1, 100):
+    q.enqueue_first(2*i)
+    q.enqueue_last(2*i+1)
+print(q)
+# while(q.is_empty() == False):
+#     print(q.dequeue_first())
+
