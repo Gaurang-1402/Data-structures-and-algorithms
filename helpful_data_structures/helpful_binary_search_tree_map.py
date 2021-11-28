@@ -40,7 +40,7 @@ class BinarySearchTreeMap:
     # returns value, or raises exception if not found
     def __getitem__(self, key):
         node = self.find_node(key)
-        if(node is None):
+        if (node is None):
             raise KeyError(str(key) + " not found")
         else:
             return node.item.value
@@ -49,7 +49,7 @@ class BinarySearchTreeMap:
     def find_node(self, key):
         cursor = self.root
         while(cursor is not None):
-            if(cursor.item.key == key):
+            if (cursor.item.key == key):
                 return cursor
             elif(cursor.item.key > key):
                 cursor = cursor.left
@@ -126,7 +126,7 @@ class BinarySearchTreeMap:
         else:
             if(num_children == 0):
                 parent = node_to_delete.parent
-                if(node_to_delete is parent.left):
+                if (node_to_delete is parent.left):
                     parent.left = None
                 else:
                     parent.right = None
@@ -134,7 +134,7 @@ class BinarySearchTreeMap:
                 node_to_delete.disconnect()
                 self.size -= 1
 
-            elif(num_children == 1):
+            elif (num_children == 1):
                 parent = node_to_delete.parent
                 if(node_to_delete.left is not None):
                     child = node_to_delete.left

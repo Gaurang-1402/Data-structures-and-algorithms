@@ -1,9 +1,9 @@
 def merge_sort(lst):
     #the return values don't matter we only need to mutate the list
     if (len(lst) == 0):
-        return
+        return lst
     elif (len(lst) == 1):
-        return
+        return lst
     else:
         mid = (len(lst)) // 2
         left_lst = lst[ : mid]
@@ -13,8 +13,10 @@ def merge_sort(lst):
         merged = merge(left_lst, right_lst)
         for i in range(len(merged)):
             lst[i] = merged[i]
+        return lst
 
 def merge(srt_lst1, srt_lst2):
+
     merged_list = []
     i1 = 0
     i2 = 0
@@ -40,4 +42,4 @@ def main():
     for elem in lst:
         print(elem, end=' ')
 
-# main()
+main()

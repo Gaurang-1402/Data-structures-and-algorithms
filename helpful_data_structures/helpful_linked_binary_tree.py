@@ -115,8 +115,6 @@ class LinkedBinaryTree:
                 bfs_queue.enqueue(curr_node.left)
             if(curr_node.right is not None):
                 bfs_queue.enqueue(curr_node.right)
-
-
     def __iter__(self):
         for node in self.breadth_first():
             yield node.data

@@ -12,14 +12,10 @@ def binary_search(lst, val):
         mid = (high + low) // 2
         if lst[mid] == val:
             return mid
-
         elif lst[mid] > val:
             high = mid - 1
-
-
         elif lst[mid] < val:
             low = mid + 1
-
 
     return "Value not present"
 
@@ -37,8 +33,6 @@ print(binary_search([2, 3, 5, 6, 3, 5, 2, 8, 9], 9))
 #Binary search with recursion
 
 def recursion_binary_search(srt_lst, low, high, val):
-
-
     if low>high:
         return None
     else:
